@@ -1,15 +1,16 @@
---- ./Makefile.org	Tue Jun  3 10:22:28 2003
-+++ ./Makefile	Mon Aug 25 14:56:25 2003
-@@ -112,7 +112,7 @@
+diff -uNr cphone-0.3.1/Makefile cphone-0.3.1-new/Makefile
+--- cphone-0.3.1/Makefile	2003-08-07 00:39:42.000000000 +0000
++++ cphone-0.3.1-new/Makefile	2004-01-29 16:35:50.000000000 +0000
+@@ -117,7 +117,7 @@
  UIC             = $(QTDIR)/bin/uic
  MOC             = $(QTDIR)/bin/moc
  
 -STDCCFLAGS      += -I$(QTDIR)/include -DQT_THREAD_SUPPORT
 +STDCCFLAGS      += -I$(QTDIR)/include/qt -DQT_THREAD_SUPPORT
- LDFLAGS         += -L$(QTDIR)/lib -L$(XLIBDIR)
+ LDFLAGS         += -L$(QTLIBDIR) -L$(XLIBDIR)
  ENDLDLIBS       += -lqt-mt -lSM -lICE -lXext -lX11 
  ifeq ($(OSTYPE),linux)
-@@ -136,7 +136,7 @@
+@@ -141,7 +141,7 @@
  OPENH323DIR=$(HOME)/openh323
  endif
  
@@ -18,3 +19,186 @@
  
  ##################################################
  
+diff -uNr cphone-0.3.1/Makefile~ cphone-0.3.1-new/Makefile~
+--- cphone-0.3.1/Makefile~	1970-01-01 00:00:00.000000000 +0000
++++ cphone-0.3.1-new/Makefile~	2003-08-07 00:39:42.000000000 +0000
+@@ -0,0 +1,179 @@
++#
++#  The contents of this file are subject to the Mozilla Public License
++#  Version 1.0 (the "License"); you may not use this file except in
++#  compliance with the License. You may obtain a copy of the License at
++#  http://www.mozilla.org/MPL/
++# 
++#  Software distributed under the License is distributed on an "AS IS"
++#  basis, WITHOUT WARRANTY OF ANY KIND, either express or implied. See
++#  the License for the specific language governing rights and limitations
++#  under the License.
++# 
++#  The Original Code is CPhone, a cross platform voip gui.
++#
++#  The Initial Developer of the Original Code is Derek Smithies.
++#
++#  Copyright (C) 2002 Indranet Technologies Ltd, 
++#                                  http://www.indranet-technologies.com
++#  All Rights Reserved.
++#
++#  Contributor(s): _______________
++#
++
++#
++#
++# $Log$
++# Revision 1.7  2003/07/21 14:54:18  peternixon
++# Needed for the AMD64 architecture where 32 and 64 bit libraries can reside side-by-side.
++#
++# Revision 1.6  2003/05/15 19:49:15  peternixon
++# Remove support for qt2 as cphone no longer works with it
++#
++# Revision 1.5  2003/05/13 09:18:14  peternixon
++# Use QT3 by default if available
++#
++# Revision 1.4  2003/05/09 03:08:24  dereksmithies
++# Fix Microtelco handling, and message display
++#
++# Revision 1.3  2003/02/03 09:15:06  rogerhardiman
++# Add extra QTDIR search to find QT on my FreeBSD system
++#
++# Revision 1.2  2002/11/28 22:51:59  dereksmithies
++# Add switch so it compiles on FreeBSD. Thanks Roger Hardiman
++#
++# Revision 1.1.1.1  2002/05/12 22:55:00  dereksmithies
++# Initial release.
++#
++#
++#
++#
++
++PROG            = cphone
++
++SOURCES         :=  \
++                 addressbookSub.cxx \
++                 audiopropertiesSub.cxx \
++                 callanswerSub.cxx \
++                 cpendpoint.cxx \
++                 main.cxx \
++                 mainwindowSub.cxx \
++                 message.cxx \
++                 options.cxx \
++                 precompile.cxx \
++                 qtvid.cxx \
++                 settingsSub.cxx \
++                 vdisplay.cxx \
++                 videopropertiesSub.cxx 
++
++UIFILES         := \
++                 addressbook.ui \
++                 audioproperties.ui \
++                 callanswer.ui \
++                 mainwindow.ui \
++                 settings.ui \
++                 videoproperties.ui 
++
++MOCFILES        := \
++                 vdisplay.h 
++
++
++#                 message.h \
++
++
++
++
++##################################################
++
++ifndef QTDIR
++ifneq (,$(wildcard /usr/local/qt))
++QTDIR=/usr/local/qt
++else
++ifneq (,$(wildcard /usr/lib/qt3))
++QTDIR=/usr/lib/qt3
++else
++ifneq (,$(wildcard ~/qt))
++QTDIR=~/qt
++else
++ifneq (,$(wildcard ../qt))
++QTDIR=../qt
++else
++ifneq (,$(wildcard /usr/X11R6/include/qapplication.h))
++QTDIR=/usr/X11R6
++endif
++endif
++endif
++endif
++endif
++endif
++
++ifndef XLIBDIR
++XLIBDIR=/usr/X11R6/lib
++endif
++ifndef QTLIBDIR
++QTLIBDIR=$(QTDIR)/lib
++endif
++
++
++UIC             = $(QTDIR)/bin/uic
++MOC             = $(QTDIR)/bin/moc
++
++STDCCFLAGS      += -I$(QTDIR)/include -DQT_THREAD_SUPPORT
++LDFLAGS         += -L$(QTLIBDIR) -L$(XLIBDIR)
++ENDLDLIBS       += -lqt-mt -lSM -lICE -lXext -lX11 
++ifeq ($(OSTYPE),linux)
++ENDLDLIBS       += -ldl
++endif
++
++UISRC           := $(patsubst %.ui,%.cxx,$(UIFILES))
++UIHDRS          := $(patsubst %.ui,%.h,$(UIFILES))
++
++MOCFILES        += $(UIHDRS)
++MOCSRCRAW       := $(addprefix moc_, $(MOCFILES))
++MOCSRC          := $(patsubst %.h,%.cxx,$(MOCSRCRAW))
++
++
++SOURCES         += $(MOCSRC) $(UISRC)
++
++
++##################################################
++
++ifndef OPENH323DIR
++OPENH323DIR=$(HOME)/openh323
++endif
++
++include $(OPENH323DIR)/openh323u.mak
++
++##################################################
++
++%.cxx %.h : %.ui
++	$(UIC) -impl $*.h $*.ui > $*.cxx
++	$(UIC) $*.ui > $*.h
++
++moc_%.cxx: %.h
++	$(MOC) -f$*.h -o $@ < $*.h
++
++
++.PRECIOUS: $(UIHDRS) $(MOCSRC)
++
++clean::
++	rm -f $(UISRC) $(UIHDRS) $(MOCSRC) 
++
++
++main.cxx : mainwindow.h
++
++addressbookSub.cxx : addressbook.h mainwindow.h callanswer.h
++
++audiopropertiesSub.cxx : audioproperties.h mainwindow.h
++
++callanswerSub.cxx : callanswer.h mainwindow.h
++
++mainwindowSub.cxx : $(UIHDRS)
++
++options.cxx : mainwindow.h
++
++settingsSub.cxx : settings.h mainwindow.h
++
++videopropertiesSub.cxx : videoproperties.h mainwindow.h
++
++# End of File ####################################
++
