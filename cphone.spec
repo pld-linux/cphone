@@ -1,12 +1,12 @@
 Summary:	CPhone - cross-platform VoIP client using the H323 protocol
 Summary(pl):	CPhone - wieloplatformowy klient VoIP u¿ywaj±cy protoko³u H323
 Name:		cphone
-Version:	0.3.0
+Version:	0.3.1
 Release:	0.1
 License:	MPL v1
 Group:		X11/Applications/Networking
 Source0:	http://dl.sourceforge.net/%{name}/%{name}-%{version}.tar.bz2
-# Source0-md5:	a5b85ede474768b5c03f1d47aec5f07c
+# Source0-md5:	7574cc0aae961561792bd0b8d17ae933
 Patch0:		%{name}-Makefile.patch
 Patch1:		%{name}-comp_fix.patch
 URL:		http://cphone.sourceforge.net/
@@ -15,6 +15,7 @@ BuildRequires:	automake
 BuildRequires:	openh323-devel >= 1.12.0
 BuildRequires:	pwlib-devel >= 1.5.0
 BuildRequires:	qt-devel >= 3.1.2
+BuildRequires:	glibc-kernel-headers
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
