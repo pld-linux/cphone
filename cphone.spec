@@ -15,7 +15,7 @@ BuildRequires:	automake
 BuildRequires:	openh323-devel >= 1.12.0
 BuildRequires:	pwlib-devel >= 1.5.0
 BuildRequires:	qt-devel >= 3.1.2
-BuildRequires:	glibc-kernel-headers
+BuildRequires:	glibc-devel
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
