@@ -1,4 +1,5 @@
-Summary:	cphone
+Summary:	CPhone - cross-platform VoIP client using the H323 protocol
+Summary(pl):	CPhone - wieloplatformowy klient VoIP u¿ywaj±cy protoko³u H323
 Name:		cphone
 Version:	0.3.0
 Release:	0.1
@@ -11,14 +12,20 @@ Patch1:		%{name}-comp_fix.patch
 URL:		http://cphone.sourceforge.net/
 BuildRequires:	autoconf
 BuildRequires:	automake
-BuildRequires:	pwlib-devel >= 1.5.0
 BuildRequires:	openh323-devel >= 1.12.0
+BuildRequires:	pwlib-devel >= 1.5.0
 BuildRequires:	qt-devel >= 3.1.2
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
-%define		_prefix		/usr/X11R6
-
 %description
+CPhone is a cross platform VoIP client which uses the H323 protocol.
+It compiles and runs on Linux, BSD, Windows and MacOS X boxes. It
+is based on the libraries from http://www.openh323.org/ and Trolltech.
+
+%description -l pl
+CPhone to wieloplatformowy klient VoIP u¿ywaj±cy protoko³u H323.
+Kompiluje siê i dzia³a pod Linuksem, BSD, Windows i MacOS X. Jest
+oparty na bibliotekach z http://www.openh323.org/ i Trolltecha.
 
 %prep
 %setup -q
@@ -27,9 +34,9 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %build
 %{__make} opt \
-QTDIR="%{_prefix}" \
-OPENH323DIR="/usr" \
-CFLAGS="-I%{_prefix}/include"
+	QTDIR="%{_prefix}" \
+	OPENH323DIR="/usr" \
+	CFLAGS="-I%{_prefix}/include"
 
 %install
 rm -rf $RPM_BUILD_ROOT
