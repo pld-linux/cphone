@@ -1,0 +1,23 @@
+--- ./message.cxx.orig	Tue Jun  3 10:22:28 2003
++++ ./message.cxx	Mon Aug 25 15:02:39 2003
+@@ -52,17 +52,17 @@
+ }
+ 
+ 
+-void::ThreadSafeMessage::DisplayError(PString thisMessage)
++void ThreadSafeMessage::DisplayError(PString thisMessage)
+ {
+   DisplayError(QString((const char *)thisMessage));
+ }
+ 
+-void::ThreadSafeMessage::DisplayWarning(PString thisMessage)
++void ThreadSafeMessage::DisplayWarning(PString thisMessage)
+ {
+   DisplayWarning(QString((const char *)thisMessage));
+ }
+ 
+-void::ThreadSafeMessage::DisplayInformation(PString thisMessage)
++void ThreadSafeMessage::DisplayInformation(PString thisMessage)
+ {
+   DisplayInformation(QString((const char *)thisMessage));
+ }
