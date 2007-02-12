@@ -1,5 +1,5 @@
 Summary:	CPhone - cross-platform VoIP client using the H323 protocol
-Summary(pl.UTF-8):   CPhone - wieloplatformowy klient VoIP używający protokołu H323
+Summary(pl.UTF-8):	CPhone - wieloplatformowy klient VoIP używający protokołu H323
 Name:		cphone
 Version:	0.3.1
 Release:	0.1
